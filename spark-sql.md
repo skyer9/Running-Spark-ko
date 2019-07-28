@@ -22,8 +22,8 @@ sql = """
     SELECT customer_id
     FROM tmp_ratingdata
 """
-df = sqlContext.sql(sql)
-cnt = df.count()
+result = sqlContext.sql(sql)
+cnt = result.count()
 print("Totel counts in csv file: %i" % (cnt))
 
 sc.stop()
