@@ -31,7 +31,7 @@ hadoopConf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
 hadoopConf.set("fs.s3a.endpoint", 's3.ap-northeast-2.amazonaws.com')
 
 # 확장자는 csv, gz 등이 가능하다.
-# df = sc.textFile("s3a://버킷이름/파일이름")
+# 출처 : https://s3.amazonaws.com/amazon-reviews-pds/tsv/index.txt
 df = sc.textFile("file:///home/ec2-user/sample_us.tsv").map(lambda x: x.split("\t"))
 
 print('\n\n------------------------------------------------\n\n')

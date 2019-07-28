@@ -14,6 +14,7 @@ hadoopConf.set("fs.s3a.endpoint", 's3.ap-northeast-2.amazonaws.com')
 
 sqlContext = SQLContext(sc)
 
+# 출처 : https://s3.amazonaws.com/amazon-reviews-pds/tsv/index.txt
 df = sqlContext.read.load('s3a://skyer9-test/sample_us.tsv', format='csv', sep='\t', header='true')
 
 df.createOrReplaceTempView('tmp_ratingdata')
@@ -43,6 +44,7 @@ hadoopConf.set("fs.s3a.endpoint", 's3.ap-northeast-2.amazonaws.com')
 
 sqlContext = SQLContext(sc)
 
+# 출처 : https://s3.amazonaws.com/amazon-reviews-pds/tsv/index.txt
 df = sqlContext.read.load('s3a://skyer9-test/sample_us.tsv', format='csv', sep='\t', header='true')
 
 df.createOrReplaceTempView('tmp_ratingdata')
