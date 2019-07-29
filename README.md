@@ -17,3 +17,7 @@
 ## Spark SQL 사용하기
 
 [Spark SQL](./spark-sql.md) 를 이용해 데이타를 분석할 수 있습니다.
+
+## Jupyter 로 스파크 실행하기
+
+[Jupyter](./jupyter.md) 를 이용해 스파크를 실행할 수 있습니다.
