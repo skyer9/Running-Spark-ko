@@ -38,7 +38,7 @@ providers:
   ec2:
     key-name: keyname
     identity-file: /home/ec2-user/keyname.pem
-    instance-type: m4.large
+    instance-type: r4.large
     region: ap-northeast-2
     # availability-zone: <name>
     ami: ami-095ca789e0549777d  # Amazon Linux 2, ap-northeast-2
