@@ -73,6 +73,7 @@ http://<마스터노드 퍼블릭 아이피>:50070/dfshealth.html#tab-overview
 아래의 명령으로 하둡 파일시스템에 파일을 복사해 넣을 수 있습니다.
 
 ```sh
+flintrock login bigdata-cluster
 wget https://s3.amazonaws.com/amazon-reviews-pds/tsv/sample_us.tsv
 hadoop fs -copyFromLocal sample_us.tsv /
 hdfs dfs -ls -R /
