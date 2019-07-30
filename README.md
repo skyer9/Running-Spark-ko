@@ -21,3 +21,7 @@
 ## Jupyter 로 스파크 실행하기
 
 [Jupyter](./jupyter.md) 를 이용해 스파크를 실행할 수 있습니다.
+
+## Hadoop 설정하기
+
+[Hadoop](./hadoop.md) 을 이용하여 노드간 파일을 공유할 수 있습니다.
