@@ -60,6 +60,7 @@ flintrock run-command bigdata-cluster '$HADOOP_PREFIX/sbin/yarn-daemon.sh start 
 ```
 
 정상 작동을 확인합니다.
+1
 
 ```sh
 vi hello.py
