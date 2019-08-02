@@ -62,6 +62,18 @@ flintrock run-command bigdata-cluster '$HADOOP_PREFIX/sbin/yarn-daemon.sh start 
 정상 작동을 확인합니다.
 
 ```sh
+vi hello.py
+```
+
+```python
+# -*- coding: utf-8 -*-
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.appName('abc').getOrCreate()
+
+print('Hello, World!')
+```
+
+```sh
 flintrock copy-file bigdata-cluster hello.py ./
 flintrock login bigdata-cluster
 spark-submit --master yarn \
