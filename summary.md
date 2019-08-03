@@ -115,7 +115,7 @@ export HADOOP_PREFIX=/home/ec2-user/hadoop
 echo "export HADOOP_PREFIX=$HADOOP_PREFIX" >> ~/.bashrc
 echo "export HADOOP_HOME=$HADOOP_PREFIX" >> ~/.bashrc
 echo "export HADOOP_COMMON_HOME=$HADOOP_PREFIX" >> ~/.bashrc
-echo "export HADOOP_CONF_DIR=$HADOOP_PREFIX/etc/hadoop" >> ~/.bashrc
+echo "export HADOOP_CONF_DIR=$HADOOP_PREFIX/conf" >> ~/.bashrc
 echo "export HADOOP_HDFS_HOME=$HADOOP_PREFIX" >> ~/.bashrc
 echo "export HADOOP_MAPRED_HOME=$HADOOP_PREFIX" >> ~/.bashrc
 echo "export HADOOP_YARN_HOME=$HADOOP_PREFIX" >> ~/.bashrc
@@ -124,7 +124,7 @@ echo "export HADOOP_YARN_HOME=$HADOOP_PREFIX" >> ~/.bashrc
 생성한 파일을 클러스터에복사합니다.
 
 ```sh
-flintrock copy-file bigdata-cluster yarn-site.xml ./hadoop/etc/hadoop/
+flintrock copy-file bigdata-cluster yarn-site.xml ./hadoop/conf/
 flintrock copy-file bigdata-cluster enable-yarn.sh ./
 flintrock run-command bigdata-cluster 'sh ~/enable-yarn.sh'
 ```
