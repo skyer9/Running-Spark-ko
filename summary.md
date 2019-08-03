@@ -119,6 +119,9 @@ echo "export HADOOP_CONF_DIR=$HADOOP_PREFIX/conf" >> ~/.bashrc
 echo "export HADOOP_HDFS_HOME=$HADOOP_PREFIX" >> ~/.bashrc
 echo "export HADOOP_MAPRED_HOME=$HADOOP_PREFIX" >> ~/.bashrc
 echo "export HADOOP_YARN_HOME=$HADOOP_PREFIX" >> ~/.bashrc
+
+cp $HADOOP_PREFIX/etc/hadoop/capacity-scheduler.xml $HADOOP_PREFIX/conf/
+cp $HADOOP_PREFIX/etc/hadoop/log4j.properties $HADOOP_PREFIX/conf/
 ```
 
 생성한 파일을 클러스터에복사합니다.
