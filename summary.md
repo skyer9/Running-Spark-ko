@@ -96,10 +96,14 @@ vi yarn-site.xml
 
 ```xml
 <configuration>
-<property>
-    <name>yarn.resourcemanager.hostname</name>
-    <value>마스터 노드 프라이빗 아이피</value>
-</property>
+    <property>
+        <name>yarn.resourcemanager.hostname</name>
+        <value>마스터 노드 프라이빗 아이피</value>
+    </property>
+    <property>
+        <name>yarn.log-aggregation-enable</name>
+        <value>true</value>
+    </property>
 </configuration>
 ```
 
@@ -146,10 +150,15 @@ exit
 flintrock run-command bigdata-cluster '$HADOOP_PREFIX/sbin/yarn-daemon.sh start nodemanager'
 ```
 
+## 테스트하기
+
+정상적으로 작동하는지 확인해 봅니다.
+
 ```sh
 flintrock login bigdata-cluster
 wget https://s3.amazonaws.com/amazon-reviews-pds/tsv/sample_us.tsv
 hadoop fs -copyFromLocal sample_us.tsv /
+hdfs dfs -ls /
 ```
 
 ```sh
@@ -161,8 +170,33 @@ vi test-hadoop.py
 from pyspark.sql import SparkSession
 spark = SparkSession.builder.appName('abc').getOrCreate()
 
-df = sparkSession.read.option("sep", "\t").csv('hdfs://<마스터 노드 프라이빗 아이피>/sample_us.tsv')
-df.write.csv("hdfs://<마스터 노드 프라이빗 아이피>/output.csv")
+df = spark.read.csv('hdfs://172.31.30.170:9000/sample_us.tsv', header=True, sep="\t")
+df.write.csv("hdfs://172.31.30.170:9000/output.csv", header=True, mode="overwrite", sep="\t")
+
+# print(df.show())
 
 spark.stop()
+```
+
+**wrirw() 데이타를 하나의 파일로 생성하는게 아니라 디렉토리에 데이타를 넣습니다.**
+
+```sh
+hadoop fs -copyFromLocal -f test-hadoop.py /
+hdfs dfs -ls /
+```
+
+```sh
+spark-submit --master yarn \
+             --deploy-mode cluster \
+             --num-executors 1 \
+             --executor-cores 1 \
+             --driver-memory 2g \
+             --executor-memory 1g \
+             hdfs://172.31.30.170:9000/test-hadoop.py
+```
+
+아래 명령을 이용해 로그를 확인할 수 있습니다.
+
+```sh
+yarn logs -applicationId application_1564819346305_0012
 ```
