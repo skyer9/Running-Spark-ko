@@ -31,16 +31,19 @@ export HADOOP_PREFIX=/home/ec2-user/hadoop
 echo "export HADOOP_PREFIX=$HADOOP_PREFIX" >> ~/.bashrc
 echo "export HADOOP_HOME=$HADOOP_PREFIX" >> ~/.bashrc
 echo "export HADOOP_COMMON_HOME=$HADOOP_PREFIX" >> ~/.bashrc
-echo "export HADOOP_CONF_DIR=$HADOOP_PREFIX/etc/hadoop" >> ~/.bashrc
+echo "export HADOOP_CONF_DIR=$HADOOP_PREFIX/conf" >> ~/.bashrc
 echo "export HADOOP_HDFS_HOME=$HADOOP_PREFIX" >> ~/.bashrc
 echo "export HADOOP_MAPRED_HOME=$HADOOP_PREFIX" >> ~/.bashrc
 echo "export HADOOP_YARN_HOME=$HADOOP_PREFIX" >> ~/.bashrc
+
+cp $HADOOP_PREFIX/etc/hadoop/capacity-scheduler.xml $HADOOP_PREFIX/conf/
+cp $HADOOP_PREFIX/etc/hadoop/log4j.properties $HADOOP_PREFIX/conf/
 ```
 
 생성한 파일을 클러스터에복사합니다.
 
 ```sh
-flintrock copy-file bigdata-cluster yarn-site.xml ./hadoop/etc/hadoop/
+flintrock copy-file bigdata-cluster yarn-site.xml ./hadoop/conf/
 flintrock copy-file bigdata-cluster enable-yarn.sh ./
 flintrock run-command bigdata-cluster 'sh ~/enable-yarn.sh'
 ```
@@ -79,4 +82,10 @@ flintrock login bigdata-cluster
 spark-submit --master yarn \
              --deploy-mode cluster \
                hello.py
+```
+
+아래 명령을 이용해 로그를 확인할 수 있습니다.
+
+```sh
+yarn logs -applicationId application_1564819346305_0012
 ```

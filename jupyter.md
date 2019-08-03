@@ -28,12 +28,12 @@ c.NotebookApp.port = 8082
 ......
 ```
 
-환경변수를 생성하고, 설정파일에도 추가해줍니다.
+환경변수를 설정합니다. 설정파일에 등록하면 `spark-submit` 실행시 오류를 발생시키므로 추가하지 않습니다.
 
 ```sh
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS='notebook'
-vi ~/.bashrc
+# vi ~/.bashrc
 ```
 
 노트북을 백그라운드에서 실행하도록 합니다.
