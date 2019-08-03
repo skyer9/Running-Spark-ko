@@ -11,10 +11,14 @@ vi yarn-site.xml
 ```xml
 <configuration>
 
-<property>
-    <name>yarn.resourcemanager.hostname</name>
-    <value>172.31.29.224</value>
-</property>
+    <property>
+        <name>yarn.resourcemanager.hostname</name>
+        <value>마스터 노드 프라이빗 아이피</value>
+    </property>
+    <property>
+        <name>yarn.log-aggregation-enable</name>
+        <value>true</value>
+    </property>
 
 </configuration>
 ```
