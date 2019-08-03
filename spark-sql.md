@@ -1,33 +1,9 @@
 # Spark SQL 사용하기
 
-```python
-# -*- coding: utf-8 -*-
-import pyspark
-from pyspark.sql import SQLContext
+`test-spark-sql.py` 를 생성합니다.
 
-sc = pyspark.SparkContext.getOrCreate()
-sc.setSystemProperty("com.amazonaws.services.s3.enableV4", "true")
-
-hadoopConf = sc._jsc.hadoopConfiguration()
-hadoopConf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
-hadoopConf.set("fs.s3a.endpoint", 's3.ap-northeast-2.amazonaws.com')
-
-sqlContext = SQLContext(sc)
-
-# 출처 : https://s3.amazonaws.com/amazon-reviews-pds/tsv/index.txt
-df = sqlContext.read.load('s3a://skyer9-test/sample_us.tsv', format='csv', sep='\t', header='true')
-
-df.createOrReplaceTempView('tmp_ratingdata')
-
-sql = """
-    SELECT customer_id
-    FROM tmp_ratingdata
-"""
-result = sqlContext.sql(sql)
-cnt = result.count()
-print("Totel counts in csv file: %i" % (cnt))
-
-sc.stop()
+```sh
+vi test-spark-sql.py
 ```
 
 ```python
@@ -36,11 +12,6 @@ import pyspark
 from pyspark.sql import SQLContext
 
 sc = pyspark.SparkContext.getOrCreate()
-sc.setSystemProperty("com.amazonaws.services.s3.enableV4", "true")
-
-hadoopConf = sc._jsc.hadoopConfiguration()
-hadoopConf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
-hadoopConf.set("fs.s3a.endpoint", 's3.ap-northeast-2.amazonaws.com')
 
 sqlContext = SQLContext(sc)
 
@@ -61,4 +32,21 @@ result = sqlContext.sql(sql)
 result.show()
 
 sc.stop()
+```
+
+```sh
+flintrock copy-file bigdata-cluster test-spark-sql.py ./
+
+# 마스터 노드에 로그인
+flintrock login bigdata-cluster
+```
+
+```sh
+spark-submit --master spark://172.31.29.43:7077 \
+               --conf spark.hadoop.fs.s3a.endpoint=s3.ap-northeast-2.amazonaws.com \
+               --conf spark.executor.extraJavaOptions=-Dcom.amazonaws.services.s3.enableV4=true \
+               --conf spark.driver.extraJavaOptions=-Dcom.amazonaws.services.s3.enableV4=true \
+               --conf spark.hadoop.fs.s3a.access.key=XXXXXXXXXXXXXXXXXXXXXX \
+               --conf spark.hadoop.fs.s3a.secret.key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXX \
+               test-spark-sql.py
 ```
