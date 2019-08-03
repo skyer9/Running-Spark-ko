@@ -140,7 +140,7 @@ exit
 모든 노드에 nodemanager 를 실행시켜 줍니다.
 
 ```sh
-flintrock run-command bigdata-cluster '\$HADOOP_PREFIX/sbin/yarn-daemon.sh start nodemanager'
+flintrock run-command bigdata-cluster '$HADOOP_PREFIX/sbin/yarn-daemon.sh start nodemanager'
 ```
 
 ```sh
