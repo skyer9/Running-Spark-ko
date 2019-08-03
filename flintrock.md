@@ -29,7 +29,7 @@ services:
     download-source: "http://apache.mirror.cdnetworks.com/spark/spark-{v}/spark-{v}-bin-hadoop2.7.tgz"
     # executor-instances: 1
   hdfs:
-    version: 3.2.0
+    version: 2.7.7
     download-source: "http://apache.mirror.cdnetworks.com/hadoop/common/hadoop-{v}/hadoop-{v}.tar.gz"
 
 provider: ec2
