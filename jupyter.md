@@ -31,7 +31,6 @@ c.NotebookApp.port = 8082
 환경변수를 생성하고, 설정파일에도 추가해줍니다.
 
 ```sh
-export PYSPARK_PYTHON=/usr/bin/python3
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS='notebook'
 vi ~/.bashrc
