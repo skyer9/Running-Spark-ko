@@ -178,11 +178,11 @@ df.write.csv("hdfs://172.31.30.170:9000/output.csv", header=True, mode="overwrit
 spark.stop()
 ```
 
-**wrirw() 데이타를 하나의 파일로 생성하는게 아니라 디렉토리에 데이타를 넣습니다.**
+**write() 함수는 데이타를 하나의 파일로 생성하는게 아니라 디렉토리에 데이타를 넣습니다.**
 
 ```sh
 hadoop fs -copyFromLocal -f test-hadoop.py /
-hdfs dfs -ls /
+hdfs dfs -ls /output.csv/
 ```
 
 ```sh
