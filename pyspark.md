@@ -10,6 +10,9 @@ flintrock run-command bigdata-cluster 'sudo yum -y install python37'
 flintrock run-command bigdata-cluster 'sudo pip-3.7 install pypandoc'
 flintrock run-command bigdata-cluster 'sudo pip-3.7 install pyspark'
 
+# support library
+flintrock run-command bigdata-cluster 'sudo pip-3.7 install numpy'
+
 # pyspark python 버전 지정
 flintrock run-command bigdata-cluster 'echo "export PYSPARK_PYTHON=/usr/bin/python3" >> ~/.bashrc'
 ```
