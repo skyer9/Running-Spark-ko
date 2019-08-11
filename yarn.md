@@ -39,6 +39,8 @@ echo "export HADOOP_CONF_DIR=$HADOOP_PREFIX/conf" >> ~/.bashrc
 echo "export HADOOP_HDFS_HOME=$HADOOP_PREFIX" >> ~/.bashrc
 echo "export HADOOP_MAPRED_HOME=$HADOOP_PREFIX" >> ~/.bashrc
 echo "export HADOOP_YARN_HOME=$HADOOP_PREFIX" >> ~/.bashrc
+echo "export HADOOP_OPTS=\"\$HADOOP_OPTS -Djava.library.path=\$HADOOP_HOME/lib/native\"" >> ~/.bashrc
+echo "export LD_LIBRARY_PATH=\"\$HADOOP_HOME/lib/native/:\$LD_LIBRARY_PATH\"" >> ~/.bashrc
 
 cp $HADOOP_PREFIX/etc/hadoop/capacity-scheduler.xml $HADOOP_PREFIX/conf/
 cp $HADOOP_PREFIX/etc/hadoop/log4j.properties $HADOOP_PREFIX/conf/
