@@ -78,3 +78,13 @@ wget https://s3.amazonaws.com/amazon-reviews-pds/tsv/sample_us.tsv
 hadoop fs -copyFromLocal sample_us.tsv /
 hdfs dfs -ls -R /
 ```
+
+## Hadoop - Name node is in safe mode. 에러 해결
+
+```sh
+flintrock login bigdata-cluster
+hadoop/bin/hadoop dfsadmin -safemode leave
+hadoop/sbin/stop-all.sh
+hadoop/sbin/start-all.sh
+hadoop/bin/hadoop dfsadmin -safemode leave
+```
