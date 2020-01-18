@@ -32,13 +32,14 @@ vi enable-yarn.sh
 
 export HADOOP_PREFIX=/home/ec2-user/hadoop
 
-echo "export HADOOP_PREFIX=$HADOOP_PREFIX" >> ~/.bashrc
-echo "export HADOOP_HOME=$HADOOP_PREFIX" >> ~/.bashrc
-echo "export HADOOP_COMMON_HOME=$HADOOP_PREFIX" >> ~/.bashrc
-echo "export HADOOP_CONF_DIR=$HADOOP_PREFIX/conf" >> ~/.bashrc
-echo "export HADOOP_HDFS_HOME=$HADOOP_PREFIX" >> ~/.bashrc
-echo "export HADOOP_MAPRED_HOME=$HADOOP_PREFIX" >> ~/.bashrc
-echo "export HADOOP_YARN_HOME=$HADOOP_PREFIX" >> ~/.bashrc
+echo "export HADOOP_PREFIX=/home/ec2-user/hadoop" >> ~/.bashrc
+echo "export HADOOP_PREFIX=\$HADOOP_PREFIX" >> ~/.bashrc
+echo "export HADOOP_HOME=\$HADOOP_PREFIX" >> ~/.bashrc
+echo "export HADOOP_COMMON_HOME=\$HADOOP_PREFIX" >> ~/.bashrc
+echo "export HADOOP_CONF_DIR=\$HADOOP_PREFIX/conf" >> ~/.bashrc
+echo "export HADOOP_HDFS_HOME=\$HADOOP_PREFIX" >> ~/.bashrc
+echo "export HADOOP_MAPRED_HOME=\$HADOOP_PREFIX" >> ~/.bashrc
+echo "export HADOOP_YARN_HOME=\$HADOOP_PREFIX" >> ~/.bashrc
 echo "export HADOOP_OPTS=\"\$HADOOP_OPTS -Djava.library.path=\$HADOOP_HOME/lib/native\"" >> ~/.bashrc
 echo "export LD_LIBRARY_PATH=\"\$HADOOP_HOME/lib/native/:\$LD_LIBRARY_PATH\"" >> ~/.bashrc
 
@@ -94,4 +95,10 @@ spark-submit --master yarn \
 
 ```sh
 yarn logs -applicationId application_1564819346305_0012
+```
+
+아래 주소를 접속하면 Yarn 의 상태를 확인할 수 있습니다.
+
+```url
+http://<마스터노드 퍼블릭 아이피>:8088/
 ```
