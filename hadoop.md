@@ -119,7 +119,7 @@ sqlContext = SQLContext(sc)
 
 # 출처 : https://s3.amazonaws.com/amazon-reviews-pds/tsv/index.txt
 # 슬래시(/) 가 3개임에 주의한다.
-df = sqlContext.read.load('hdfs:///skyer9-test/sample_us.tsv', format='csv', sep='\t', header='true')
+df = sqlContext.read.load('hdfs:///sample_us.tsv', format='csv', sep='\t', header='true')
 
 df.createOrReplaceTempView('tmp_ratingdata')
 
