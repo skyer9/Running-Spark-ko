@@ -77,6 +77,77 @@ hadoop fs -copyFromLocal sample_us.tsv /
 hdfs dfs -ls -R /
 ```
 
+pyspark 를 설치합니다.
+
+```sh
+# 모든 스파크 클러스터 노드에 pyspark 설치
+flintrock run-command bigdata-cluster 'sudo yum -y install python37'
+flintrock run-command bigdata-cluster 'sudo pip-3.7 install pypandoc'
+flintrock run-command bigdata-cluster 'sudo pip-3.7 install pyspark'
+
+# support library
+flintrock run-command bigdata-cluster 'sudo pip-3.7 install numpy'
+
+# pyspark python 버전 지정
+flintrock run-command bigdata-cluster 'echo "export PYSPARK_PYTHON=/usr/bin/python3" >> ~/.bashrc'
+```
+
+jar 파일을 설치합니다.
+
+``` sh
+exit
+wget https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar
+wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/2.7.6/hadoop-aws-2.7.6.jar
+flintrock copy-file bigdata-cluster aws-java-sdk-1.7.4.jar ./spark/jars/
+flintrock copy-file bigdata-cluster hadoop-aws-2.7.6.jar ./spark/jars/
+```
+
+`test-spark-sql-hadoop.py` 를 생성합니다.
+
+```sh
+vi test-spark-sql-hadoop.py
+```
+
+```python
+# -*- coding: utf-8 -*-
+import pyspark
+from pyspark.sql import SQLContext
+
+sc = pyspark.SparkContext.getOrCreate()
+
+sqlContext = SQLContext(sc)
+
+# 출처 : https://s3.amazonaws.com/amazon-reviews-pds/tsv/index.txt
+df = sqlContext.read.load('hdfs:///skyer9-test/sample_us.tsv', format='csv', sep='\t', header='true')
+
+df.createOrReplaceTempView('tmp_ratingdata')
+
+sql = """
+    SELECT
+        customer_id, product_id, product_category, star_rating, review_date
+    FROM
+        tmp_ratingdata
+    ORDER BY
+        customer_id, product_id
+"""
+result = sqlContext.sql(sql)
+result.show()
+
+sc.stop()
+```
+
+```sh
+flintrock copy-file bigdata-cluster test-spark-sql-hadoop.py ./
+
+# 마스터 노드에 로그인
+flintrock login bigdata-cluster
+```
+
+```sh
+spark-submit --master spark://172.31.8.129:7077 \
+               test-spark-sql-hadoop.py
+```
+
 ## Hadoop - Name node is in safe mode. 에러 해결
 
 ```sh
