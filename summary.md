@@ -7,10 +7,20 @@
 Python 3.X 가 설치되어 있는지 확인 후, flintrock 을 설치합니다.
 
 ```sh
-python3 -V
-Python 3.6.2
+python -V
+Python 2.7.16
 
+# install python3
+sudo yum list | grep python3
+sudo yum install python36 python36-pip
+
+export AWS_ACCESS_KEY_ID=my.aws.key
+export AWS_SECRET_ACCESS_KEY=my.secret.key
+vi .bashrc
+
+# pip 를 이용해 설치한다.
 sudo pip-3.6 install flintrock
+
 flintrock --help
 ```
 
@@ -26,11 +36,11 @@ vi /home/ec2-user/.config/flintrock/config.yaml
 ```yaml
 services:
   spark:
-    version: 2.4.3
+    version: 2.4.4
     download-source: "http://apache.mirror.cdnetworks.com/spark/spark-{v}/spark-{v}-bin-hadoop2.7.tgz"
     # executor-instances: 1
   hdfs:
-    version: 2.7.7
+    version: 2.8.5
     download-source: "http://apache.mirror.cdnetworks.com/hadoop/common/hadoop-{v}/hadoop-{v}.tar.gz"
 
 provider: ec2
@@ -39,7 +49,7 @@ providers:
   ec2:
     key-name: keyname
     identity-file: /home/ec2-user/keyname.pem
-    instance-type: r4.large
+    instance-type: m5.large
     region: ap-northeast-2
     # availability-zone: <name>
     ami: ami-095ca789e0549777d  # Amazon Linux 2, ap-northeast-2
@@ -116,13 +126,16 @@ vi enable-yarn.sh
 
 export HADOOP_PREFIX=/home/ec2-user/hadoop
 
-echo "export HADOOP_PREFIX=$HADOOP_PREFIX" >> ~/.bashrc
-echo "export HADOOP_HOME=$HADOOP_PREFIX" >> ~/.bashrc
-echo "export HADOOP_COMMON_HOME=$HADOOP_PREFIX" >> ~/.bashrc
-echo "export HADOOP_CONF_DIR=$HADOOP_PREFIX/conf" >> ~/.bashrc
-echo "export HADOOP_HDFS_HOME=$HADOOP_PREFIX" >> ~/.bashrc
-echo "export HADOOP_MAPRED_HOME=$HADOOP_PREFIX" >> ~/.bashrc
-echo "export HADOOP_YARN_HOME=$HADOOP_PREFIX" >> ~/.bashrc
+echo "export HADOOP_PREFIX=/home/ec2-user/hadoop" >> ~/.bashrc
+echo "export HADOOP_PREFIX=\$HADOOP_PREFIX" >> ~/.bashrc
+echo "export HADOOP_HOME=\$HADOOP_PREFIX" >> ~/.bashrc
+echo "export HADOOP_COMMON_HOME=\$HADOOP_PREFIX" >> ~/.bashrc
+echo "export HADOOP_CONF_DIR=\$HADOOP_PREFIX/conf" >> ~/.bashrc
+echo "export HADOOP_HDFS_HOME=\$HADOOP_PREFIX" >> ~/.bashrc
+echo "export HADOOP_MAPRED_HOME=\$HADOOP_PREFIX" >> ~/.bashrc
+echo "export HADOOP_YARN_HOME=\$HADOOP_PREFIX" >> ~/.bashrc
+echo "export HADOOP_OPTS=\"\$HADOOP_OPTS -Djava.library.path=\$HADOOP_HOME/lib/native\"" >> ~/.bashrc
+echo "export LD_LIBRARY_PATH=\"\$HADOOP_HOME/lib/native/:\$LD_LIBRARY_PATH\"" >> ~/.bashrc
 
 cp $HADOOP_PREFIX/etc/hadoop/capacity-scheduler.xml $HADOOP_PREFIX/conf/
 cp $HADOOP_PREFIX/etc/hadoop/log4j.properties $HADOOP_PREFIX/conf/
@@ -170,8 +183,8 @@ vi test-hadoop.py
 from pyspark.sql import SparkSession
 spark = SparkSession.builder.appName('abc').getOrCreate()
 
-df = spark.read.csv('hdfs://172.31.30.170:9000/sample_us.tsv', header=True, sep="\t")
-df.write.csv("hdfs://172.31.30.170:9000/output.csv", header=True, mode="overwrite", sep="\t")
+df = spark.read.csv('hdfs://172.31.7.159:9000/sample_us.tsv', header=True, sep="\t")
+df.write.csv("hdfs://172.31.7.159:9000/output.csv", header=True, mode="overwrite", sep="\t")
 
 # print(df.show())
 
@@ -192,7 +205,7 @@ spark-submit --master yarn \
              --executor-cores 1 \
              --driver-memory 2g \
              --executor-memory 1g \
-             hdfs://172.31.30.170:9000/test-hadoop.py
+             hdfs://172.31.7.159:9000/test-hadoop.py
 ```
 
 아래 명령을 이용해 로그를 확인할 수 있습니다.
