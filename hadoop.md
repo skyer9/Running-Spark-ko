@@ -6,16 +6,14 @@ Hadoop 을 이용하여 노드간 파일을 공유할 수 있습니다.
 vi /home/ec2-user/.config/flintrock/config.yaml
 ```
 
-**Hadoop 버전은 2.7.X 로 하는걸 권장합니다.**
-
 ```yaml
 services:
   spark:
-    version: 2.4.3
+    version: 2.4.4
     download-source: "http://apache.mirror.cdnetworks.com/spark/spark-{v}/spark-{v}-bin-hadoop2.7.tgz"
     # executor-instances: 1
   hdfs:
-    version: 2.7.7
+    version: 2.8.5
     download-source: "http://apache.mirror.cdnetworks.com/hadoop/common/hadoop-{v}/hadoop-{v}.tar.gz"
 
 provider: ec2
@@ -24,7 +22,7 @@ providers:
   ec2:
     key-name: keyname
     identity-file: /home/ec2-user/keyname.pem
-    instance-type: r4.large
+    instance-type: m5.large
     region: ap-northeast-2
     # availability-zone: <name>
     ami: ami-095ca789e0549777d  # Amazon Linux 2, ap-northeast-2
