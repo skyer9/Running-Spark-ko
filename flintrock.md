@@ -13,6 +13,7 @@ sudo yum install python36 python36-pip
 
 export AWS_ACCESS_KEY_ID=my.aws.key
 export AWS_SECRET_ACCESS_KEY=my.secret.key
+vi .bashrc
 
 # pip 를 이용해 설치한다.
 sudo pip-3.6 install flintrock
