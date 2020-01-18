@@ -7,6 +7,13 @@
 ## flintrock 설치
 
 ```sh
+# install python3
+sudo yum list | grep python3
+sudo yum install python36 python36-pip
+
+export AWS_ACCESS_KEY_ID=my.aws.key
+export AWS_SECRET_ACCESS_KEY=my.secret.key
+
 # pip 를 이용해 설치한다.
 sudo pip-3.6 install flintrock
 
@@ -25,11 +32,11 @@ vi /home/ec2-user/.config/flintrock/config.yaml
 ```yaml
 services:
   spark:
-    version: 2.4.3
+    version: 2.4.4
     download-source: "http://apache.mirror.cdnetworks.com/spark/spark-{v}/spark-{v}-bin-hadoop2.7.tgz"
     # executor-instances: 1
   hdfs:
-    version: 2.7.7
+    version: 2.8.5
     download-source: "http://apache.mirror.cdnetworks.com/hadoop/common/hadoop-{v}/hadoop-{v}.tar.gz"
 
 provider: ec2
@@ -38,7 +45,7 @@ providers:
   ec2:
     key-name: keyname
     identity-file: /home/ec2-user/keyname.pem
-    instance-type: r4.large
+    instance-type: m5.large
     region: ap-northeast-2
     # availability-zone: <name>
     ami: ami-095ca789e0549777d  # Amazon Linux 2, ap-northeast-2
