@@ -75,6 +75,12 @@ debug: false
 flintrock launch bigdata-cluster
 ```
 
+아래 주소를 접속하면 하둡의 상태를 확인할 수 있습니다.
+
+```url
+http://<마스터노드 퍼블릭 아이피>:50070/
+```
+
 ## pyspark 모듈 설치하기
 
 아래와 같이 `pyspark` 패키지를 설치합니다.
@@ -127,7 +133,6 @@ vi enable-yarn.sh
 export HADOOP_PREFIX=/home/ec2-user/hadoop
 
 echo "export HADOOP_PREFIX=/home/ec2-user/hadoop" >> ~/.bashrc
-echo "export HADOOP_PREFIX=\$HADOOP_PREFIX" >> ~/.bashrc
 echo "export HADOOP_HOME=\$HADOOP_PREFIX" >> ~/.bashrc
 echo "export HADOOP_COMMON_HOME=\$HADOOP_PREFIX" >> ~/.bashrc
 echo "export HADOOP_CONF_DIR=\$HADOOP_PREFIX/conf" >> ~/.bashrc
@@ -163,6 +168,12 @@ exit
 flintrock run-command bigdata-cluster '$HADOOP_PREFIX/sbin/yarn-daemon.sh start nodemanager'
 ```
 
+아래 주소를 접속하면 Yarn 의 상태를 확인할 수 있습니다.
+
+```url
+http://<마스터노드 퍼블릭 아이피>:8088/
+```
+
 ## 테스트하기
 
 정상적으로 작동하는지 확인해 봅니다.
@@ -183,8 +194,8 @@ vi test-hadoop.py
 from pyspark.sql import SparkSession
 spark = SparkSession.builder.appName('abc').getOrCreate()
 
-df = spark.read.csv('hdfs://172.31.7.159:9000/sample_us.tsv', header=True, sep="\t")
-df.write.csv("hdfs://172.31.7.159:9000/output.csv", header=True, mode="overwrite", sep="\t")
+df = spark.read.csv('hdfs://<마스터노드 프라이빗 아이피>:9000/sample_us.tsv', header=True, sep="\t")
+df.write.csv("hdfs://<마스터노드 프라이빗 아이피>:9000/output.csv", header=True, mode="overwrite", sep="\t")
 
 # print(df.show())
 
@@ -195,7 +206,6 @@ spark.stop()
 
 ```sh
 hadoop fs -copyFromLocal -f test-hadoop.py /
-hdfs dfs -ls /output.csv/
 ```
 
 ```sh
@@ -205,7 +215,8 @@ spark-submit --master yarn \
              --executor-cores 1 \
              --driver-memory 2g \
              --executor-memory 1g \
-             hdfs://172.31.7.159:9000/test-hadoop.py
+             hdfs://<마스터노드 프라이빗 아이피>:9000/test-hadoop.py
+hdfs dfs -ls /output.csv/
 ```
 
 아래 명령을 이용해 로그를 확인할 수 있습니다.

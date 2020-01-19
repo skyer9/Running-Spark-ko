@@ -33,7 +33,6 @@ vi enable-yarn.sh
 export HADOOP_PREFIX=/home/ec2-user/hadoop
 
 echo "export HADOOP_PREFIX=/home/ec2-user/hadoop" >> ~/.bashrc
-echo "export HADOOP_PREFIX=\$HADOOP_PREFIX" >> ~/.bashrc
 echo "export HADOOP_HOME=\$HADOOP_PREFIX" >> ~/.bashrc
 echo "export HADOOP_COMMON_HOME=\$HADOOP_PREFIX" >> ~/.bashrc
 echo "export HADOOP_CONF_DIR=\$HADOOP_PREFIX/conf" >> ~/.bashrc
